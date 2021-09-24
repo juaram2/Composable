@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ComposableTheme {
-                BottomNavigation()
+                MainContent()
             }
         }
     }
@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity() {
 @Composable
 fun DefaultPreview() {
     ComposableTheme {
-        TopBar()
-        BottomNavigation()
+        MainContent()
     }
 }

@@ -8,7 +8,6 @@ import com.example.composable.TopBar
 @Composable
 fun Booking() {
     Column() {
-        TopBar()
         Text(text = "Booking")
     }
 }

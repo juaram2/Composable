@@ -1,13 +1,12 @@
-package com.example.composable.ui.pages
+package com.example.composable.ui.detailPages
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import com.example.composable.TopBar
 
 @Composable
-fun Setting() {
+fun HomeDetail() {
     Column() {
-        Text(text = "Setting")
+        Text(text = "Detail")
     }
 }

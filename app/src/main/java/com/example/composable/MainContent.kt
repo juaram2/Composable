@@ -16,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -24,18 +25,32 @@ import com.example.composable.ui.pages.Booking
 import com.example.composable.ui.pages.Feature
 import com.example.composable.ui.pages.Search
 import com.example.composable.ui.pages.Setting
+import com.example.composable.ui.theme.ComposableTheme
 
 enum class HomeSections(
     @StringRes val title: Int,
     val icon: ImageVector,
     val route: String
 ) {
-    Feature(R.string.nav_home, Icons.Outlined.Home, "home"),
-    Search(R.string.nav_search, Icons.Outlined.Search, "search"),
-    Booking(R.string.nav_bookng, Icons.Outlined.List, "booking"),
-    Setting(R.string.nav_setting, Icons.Outlined.Settings, "setting")
+    Feature(R.string.nav_home, Icons.Outlined.Home, "home/feature"),
+    Search(R.string.nav_search, Icons.Outlined.Search, "home/search"),
+    Booking(R.string.nav_bookng, Icons.Outlined.List, "home/booking"),
+    Setting(R.string.nav_setting, Icons.Outlined.Settings, "home/setting")
 }
 
+@Composable
+fun MainContent() {
+    ComposableTheme {
+        val navController = rememberNavController()
+
+        Scaffold(
+            topBar = { TopBar() },
+            bottomBar = { BottomNavigation(navController) }
+        ) {
+//            MainNavGraph(navController = navController)
+        }
+    }
+}
 
 @Composable
 fun TopBar() {
@@ -44,9 +59,7 @@ fun TopBar() {
             Text(text = stringResource(R.string.app_name))
         },
         navigationIcon = {
-            IconButton(onClick = { }) {
-                Icon(imageVector = Icons.Filled.Menu, contentDescription = "Menu Button")
-            }
+            Icon(imageVector = Icons.Filled.Menu, contentDescription = "Menu Button")
         },
         backgroundColor = Color.Transparent,
         contentColor = Color.Gray,
@@ -56,9 +69,7 @@ fun TopBar() {
 
 
 @Composable
-fun BottomNavigation() {
-    val navController = rememberNavController()
-
+fun BottomNavigation(navController: NavHostController) {
     Scaffold(bottomBar = {
         BottomNavigation {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -66,7 +77,7 @@ fun BottomNavigation() {
 
             HomeSections.values().forEach { screen ->
                 BottomNavigationItem(
-                    icon = { Icon(screen.icon, contentDescription = "home") },
+                    icon = { Icon(screen.icon, contentDescription = screen.name) },
                     label = { Text(stringResource(id = screen.title)) },
                     selected = currentDestination?.hierarchy?.any {
                         it.route == screen.route } == true,
@@ -83,11 +94,11 @@ fun BottomNavigation() {
             }
         }
     }) {
-        NavHost(navController = navController, startDestination = "home") {
-            composable("home") { Feature() }
-            composable("search") { Search() }
-            composable("booking") { Booking() }
-            composable("setting") { Setting() }
+        NavHost(navController = navController, startDestination = HomeSections.Feature.route) {
+            composable(HomeSections.Feature.route) { Feature() }
+            composable(HomeSections.Search.route) { Search() }
+            composable(HomeSections.Booking.route) { Booking() }
+            composable(HomeSections.Setting.route) { Setting() }
         }
     }
 }
