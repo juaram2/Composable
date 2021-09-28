@@ -4,8 +4,6 @@ plugins {
     id 'kotlin-kapt'
 }
 
-apply plugin: 'kotlin-android-extensions'
-
 android {
     compileSdk 31
     buildToolsVersion "31.0.0"
@@ -105,6 +103,9 @@ dependencies {
 
     // Google
     implementation "com.google.android.gms:play-services-auth:$google_signin_version"
+
+    // Coil
+    implementation "com.google.accompanist:accompanist-coil:0.15.0"
 
     // Test
     testImplementation 'junit:junit:4.+'

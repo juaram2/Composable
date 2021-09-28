@@ -26,6 +26,7 @@ import com.example.composable.ui.pages.Feature
 import com.example.composable.ui.pages.Search
 import com.example.composable.ui.pages.Setting
 import com.example.composable.ui.theme.ComposableTheme
+import com.example.composable.viewModel.MainViewModel
 
 enum class HomeSections(
     @StringRes val title: Int,
@@ -42,12 +43,15 @@ enum class HomeSections(
 fun MainContent() {
     ComposableTheme {
         val navController = rememberNavController()
+        val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
 
         Scaffold(
+            scaffoldState = scaffoldState,
             topBar = { TopBar() },
+            drawerContent = { Text(text = "drawerContent") },
             bottomBar = { BottomNavigation(navController) }
         ) {
-//            MainNavGraph(navController = navController)
+
         }
     }
 }
@@ -95,7 +99,7 @@ fun BottomNavigation(navController: NavHostController) {
         }
     }) {
         NavHost(navController = navController, startDestination = HomeSections.Feature.route) {
-            composable(HomeSections.Feature.route) { Feature() }
+            composable(HomeSections.Feature.route) { Feature(MainViewModel()) }
             composable(HomeSections.Search.route) { Search() }
             composable(HomeSections.Booking.route) { Booking() }
             composable(HomeSections.Setting.route) { Setting() }
