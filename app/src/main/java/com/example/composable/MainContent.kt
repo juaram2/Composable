@@ -67,6 +67,7 @@ fun TopBar(scaffoldState: ScaffoldState) {
         },
         navigationIcon = {
             Icon(imageVector = Icons.Filled.Menu, contentDescription = "Menu Button", modifier = Modifier
+                .padding(horizontal = 10.dp)
                 .clickable {
                     scope.launch {
                         if (scaffoldState.drawerState.isClosed) {

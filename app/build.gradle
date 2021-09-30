@@ -86,6 +86,9 @@ dependencies {
     // Lifecycle
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
 
+    // Hilt
+    implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha01'
+
     // Integration with observables
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
     implementation "androidx.compose.runtime:runtime-rxjava2:$compose_version"

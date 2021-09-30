@@ -5,6 +5,7 @@ import CloudHospitalApi.models.HospitalsViewModel
 import CloudHospitalApi.models.MarketingType
 import android.app.Application
 import android.util.Log
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,14 +14,11 @@ import com.example.composable.service.ApiClients
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainViewModel: ViewModel() {
+class MainViewModel @ViewModelInject constructor( ): BaseViewModel() {
     private val hospitalsApi = ApiClients.apiClient.createService(HospitalsApi::class.java)
 
     private val _data = MutableLiveData<HospitalsViewModel>()
     val data: LiveData<HospitalsViewModel> = _data
-
-    private val _loading = MutableLiveData(false)
-    val loading: LiveData<Boolean> = _loading
 
     init {
         fetchData(MarketingType.both)
