@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">Composable</string>
+
+    <string name="nav_hospital">Hospital</string>
+    <string name="nav_doctor">Doctor</string>
+    <string name="nav_deal">Deal</string>
+    <string name="nav_profile">Profile</string>
+
     <string name="nav_home">Home</string>
     <string name="nav_search">Search</string>
     <string name="nav_bookng">Booking</string>

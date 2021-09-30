@@ -1,15 +1,16 @@
 package com.example.composable
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.List
-import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -21,22 +22,21 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.composable.ui.pages.Booking
-import com.example.composable.ui.pages.Feature
-import com.example.composable.ui.pages.Search
-import com.example.composable.ui.pages.Setting
+import com.example.composable.ui.pages.*
 import com.example.composable.ui.theme.ComposableTheme
 import com.example.composable.viewModel.MainViewModel
+import kotlinx.coroutines.launch
 
 enum class HomeSections(
     @StringRes val title: Int,
     val icon: ImageVector,
     val route: String
 ) {
-    Feature(R.string.nav_home, Icons.Outlined.Home, "home/feature"),
-    Search(R.string.nav_search, Icons.Outlined.Search, "home/search"),
-    Booking(R.string.nav_bookng, Icons.Outlined.List, "home/booking"),
-    Setting(R.string.nav_setting, Icons.Outlined.Settings, "home/setting")
+    Hospital(R.string.nav_hospital, Icons.Filled.LocalHospital, "hospital"),
+    Doctor(R.string.nav_doctor, Icons.Filled.Masks, "doctor"),
+    Deal(R.string.nav_deal, Icons.Filled.Work, "deal"),
+    Search(R.string.nav_search, Icons.Filled.Search, "search"),
+    Profile(R.string.nav_profile, Icons.Filled.Person, "profile")
 }
 
 @Composable
@@ -47,23 +47,33 @@ fun MainContent() {
 
         Scaffold(
             scaffoldState = scaffoldState,
-            topBar = { TopBar() },
-            drawerContent = { Text(text = "drawerContent") },
-            bottomBar = { BottomNavigation(navController) }
+            topBar = { TopBar(scaffoldState) },
+            drawerContent = { Drawer() }
         ) {
-
+            Box(modifier = Modifier.padding(it)) {
+                BottomNavigation(navController = navController)
+            }
         }
     }
 }
 
 @Composable
-fun TopBar() {
+fun TopBar(scaffoldState: ScaffoldState) {
+    val scope = rememberCoroutineScope()
+
     TopAppBar(
         title = {
             Text(text = stringResource(R.string.app_name))
         },
         navigationIcon = {
-            Icon(imageVector = Icons.Filled.Menu, contentDescription = "Menu Button")
+            Icon(imageVector = Icons.Filled.Menu, contentDescription = "Menu Button", modifier = Modifier
+                .clickable {
+                    scope.launch {
+                        if (scaffoldState.drawerState.isClosed) {
+                            scaffoldState.drawerState.open()
+                        } else scaffoldState.drawerState.close()
+                    }
+                })
         },
         backgroundColor = Color.Transparent,
         contentColor = Color.Gray,
@@ -71,6 +81,10 @@ fun TopBar() {
     )
 }
 
+@Composable
+fun Drawer() {
+
+}
 
 @Composable
 fun BottomNavigation(navController: NavHostController) {
@@ -98,11 +112,12 @@ fun BottomNavigation(navController: NavHostController) {
             }
         }
     }) {
-        NavHost(navController = navController, startDestination = HomeSections.Feature.route) {
-            composable(HomeSections.Feature.route) { Feature(MainViewModel()) }
+        NavHost(navController = navController, startDestination = HomeSections.Hospital.route) {
+            composable(HomeSections.Hospital.route) { Feature(MainViewModel()) }
+            composable(HomeSections.Doctor.route) { Doctors() }
+            composable(HomeSections.Deal.route) { Deals() }
             composable(HomeSections.Search.route) { Search() }
-            composable(HomeSections.Booking.route) { Booking() }
-            composable(HomeSections.Setting.route) { Setting() }
+            composable(HomeSections.Profile.route) { Setting() }
         }
     }
 }
