@@ -15,8 +15,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -26,6 +28,26 @@ import com.example.composable.ui.pages.*
 import com.example.composable.ui.theme.ComposableTheme
 import com.example.composable.viewModel.MainViewModel
 import kotlinx.coroutines.launch
+
+fun NavGraphBuilder.addHomeGraph(
+    onSelected: (Long, NavBackStackEntry) -> Unit
+) {
+    composable(HomeSections.Hospital.route) { from ->
+        Feature(onClick = { id -> onSelected(id, from) }, MainViewModel())
+    }
+    composable(HomeSections.Doctor.route) { from ->
+//        Doctors(onClick = { id -> onSelected(id, from) })
+    }
+    composable(HomeSections.Deal.route) { from ->
+//        Deals(onClick = { id -> onSelected(id, from) })
+    }
+    composable(HomeSections.Search.route) { from ->
+//        Search(onClick = { id -> onSelected(id, from) })
+    }
+    composable(HomeSections.Profile.route) {
+        Setting()
+    }
+}
 
 enum class HomeSections(
     @StringRes val title: Int,
@@ -114,7 +136,7 @@ fun BottomNavigation(navController: NavHostController) {
         }
     }) {
         NavHost(navController = navController, startDestination = HomeSections.Hospital.route) {
-            composable(HomeSections.Hospital.route) { Feature(MainViewModel()) }
+            composable(HomeSections.Hospital.route) { Feature({}, MainViewModel()) }
             composable(HomeSections.Doctor.route) { Doctors() }
             composable(HomeSections.Deal.route) { Deals() }
             composable(HomeSections.Search.route) { Search() }

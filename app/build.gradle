@@ -88,6 +88,7 @@ dependencies {
 
     // Hilt
     implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha01'
+    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0-alpha03'
 
     // Integration with observables
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"

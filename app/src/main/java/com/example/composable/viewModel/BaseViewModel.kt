@@ -1,11 +1,13 @@
 package com.example.composable.viewModel
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-abstract class BaseViewModel @ViewModelInject constructor() : ViewModel() {
+@HiltViewModel
+abstract class BaseViewModel @Inject constructor() : ViewModel() {
 
     protected val _loading = MutableLiveData(false)
     val loading: LiveData<Boolean> = _loading

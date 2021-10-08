@@ -2,11 +2,13 @@ package com.example.composable.ui.pages
 
 import CloudHospitalApi.models.HospitalItemViewModel
 import CloudHospitalApi.models.MediaType
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.Card
+import androidx.compose.material.Divider
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -15,46 +17,56 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import com.example.composable.ui.components.LoadingBar
 import com.example.composable.ui.components.Thumbnail
-import com.example.composable.ui.detailPages.HomeDetail
 import com.example.composable.viewModel.MainViewModel
 
 @Composable
-fun Feature(viewModel: MainViewModel) {
-    val hospitalViewModel = viewModel.data.observeAsState().value?.items ?: emptyList()
+fun Feature(
+    onClick: (Long) -> Unit,
+    viewModel: MainViewModel
+) {
+    val hospitals = viewModel.data.observeAsState().value?.items ?: emptyList()
     val loadingState = viewModel.loading.observeAsState().value
     val navController = rememberNavController()
-    val scrollState = rememberScrollState()
 
     if (loadingState == true) {
         LoadingBar()
+    } else {
+        Hospitals(hospitals, onClick)
     }
-    else {
-        Column(
-            modifier = Modifier
-                .verticalScroll(scrollState)
-                .padding(20.dp)
-        ) {
-            Text(text = "Top Hospitals & Clinics",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(bottom = 15.dp))
+}
 
-            hospitalViewModel?.forEach { hospitalItemViewModel ->
-                Hospital(navController, hospital = hospitalItemViewModel)
-            }
+@Composable
+private fun Hospitals(
+    hospitals: List<HospitalItemViewModel>,
+    onClick: (Long) -> Unit
+) {
+    val scrollState = rememberScrollState()
+
+    Column(
+        modifier = Modifier
+            .verticalScroll(scrollState)
+            .padding(20.dp)
+    ) {
+        Text(text = "Top Hospitals & Clinics",
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(bottom = 15.dp))
+
+        hospitals?.forEach { hospitalItemViewModel ->
+            Hospital(onClick, hospital = hospitalItemViewModel)
         }
     }
 }
 
 @Composable
-fun Hospital(navController: NavHostController, hospital: HospitalItemViewModel) {
+fun Hospital(
+    onClick: (Long) -> Unit,
+    hospital: HospitalItemViewModel
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
