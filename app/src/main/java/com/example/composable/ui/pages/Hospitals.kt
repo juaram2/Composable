@@ -25,7 +25,7 @@ import com.example.composable.viewModel.MainViewModel
 
 @Composable
 fun Feature(
-    onClick: (Long) -> Unit,
+    onClick: (String) -> Unit,
     viewModel: MainViewModel
 ) {
     val hospitals = viewModel.data.observeAsState().value?.items ?: emptyList()
@@ -42,7 +42,7 @@ fun Feature(
 @Composable
 private fun Hospitals(
     hospitals: List<HospitalItemViewModel>,
-    onClick: (Long) -> Unit
+    onClick: (String) -> Unit
 ) {
     val scrollState = rememberScrollState()
 
@@ -64,7 +64,7 @@ private fun Hospitals(
 
 @Composable
 fun Hospital(
-    onClick: (Long) -> Unit,
+    onClick: (String) -> Unit,
     hospital: HospitalItemViewModel
 ) {
     Card(

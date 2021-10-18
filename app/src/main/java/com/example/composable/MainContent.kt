@@ -13,52 +13,42 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navigation
+import com.example.composable.ui.detailPages.HomeDetail
 import com.example.composable.ui.pages.*
 import com.example.composable.ui.theme.ComposableTheme
 import com.example.composable.viewModel.MainViewModel
 import kotlinx.coroutines.launch
 
-fun NavGraphBuilder.addHomeGraph(
-    onSelected: (Long, NavBackStackEntry) -> Unit
-) {
-    composable(HomeSections.Hospital.route) { from ->
-        Feature(onClick = { id -> onSelected(id, from) }, MainViewModel())
-    }
-    composable(HomeSections.Doctor.route) { from ->
-//        Doctors(onClick = { id -> onSelected(id, from) })
-    }
-    composable(HomeSections.Deal.route) { from ->
-//        Deals(onClick = { id -> onSelected(id, from) })
-    }
-    composable(HomeSections.Search.route) { from ->
-//        Search(onClick = { id -> onSelected(id, from) })
-    }
-    composable(HomeSections.Profile.route) {
-        Setting()
-    }
-}
-
-enum class HomeSections(
+sealed class BottomNavItem(
     @StringRes val title: Int,
     val icon: ImageVector,
     val route: String
-) {
-    Hospital(R.string.nav_hospital, Icons.Filled.LocalHospital, "hospital"),
-    Doctor(R.string.nav_doctor, Icons.Filled.Masks, "doctor"),
-    Deal(R.string.nav_deal, Icons.Filled.Work, "deal"),
-    Search(R.string.nav_search, Icons.Filled.Search, "search"),
-    Profile(R.string.nav_profile, Icons.Filled.Person, "profile")
+){
+    object Hospital : BottomNavItem(R.string.nav_hospital, Icons.Filled.LocalHospital, "hospital")
+    object Doctor : BottomNavItem(R.string.nav_doctor, Icons.Filled.Masks, "doctor")
+    object Deal : BottomNavItem(R.string.nav_deal, Icons.Filled.Work, "deal")
+    object Search : BottomNavItem(R.string.nav_search, Icons.Filled.Search, "search")
+    object Profile : BottomNavItem(R.string.nav_profile, Icons.Filled.Person, "profile")
+}
+
+@Composable
+fun HomeNavigation(navController: NavHostController) {
+    NavHost(navController = navController, startDestination = BottomNavItem.Hospital.route) {
+        composable(BottomNavItem.Hospital.route) { Feature({}, MainViewModel()) }
+        composable(BottomNavItem.Deal.route) { Deals() }
+        composable(BottomNavItem.Search.route) { Search() }
+        composable(BottomNavItem.Profile.route) { Setting() }
+    }
 }
 
 @Composable
@@ -70,10 +60,11 @@ fun MainContent() {
         Scaffold(
             scaffoldState = scaffoldState,
             topBar = { TopBar(scaffoldState) },
-            drawerContent = { Drawer() }
+            drawerContent = { Drawer() },
+            bottomBar = { BottomNavigation(navController) }
         ) {
             Box(modifier = Modifier.padding(it)) {
-                BottomNavigation(navController = navController)
+                HomeNavigation(navController)
             }
         }
     }
@@ -110,38 +101,41 @@ fun Drawer() {
 }
 
 @Composable
-fun BottomNavigation(navController: NavHostController) {
-    Scaffold(bottomBar = {
-        BottomNavigation {
-            val navBackStackEntry by navController.currentBackStackEntryAsState()
-            val currentDestination = navBackStackEntry?.destination
+fun BottomNavigation(navController: NavController) {
+    val items = listOf(
+        BottomNavItem.Hospital,
+        BottomNavItem.Doctor,
+        BottomNavItem.Deal,
+        BottomNavItem.Search,
+        BottomNavItem.Profile
+    )
+    BottomNavigation(
+        backgroundColor = colorResource(id = R.color.design_default_color_primary),
+        contentColor = Color.White
+    ) {
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentRoute = navBackStackEntry?.destination?.route
 
-            HomeSections.values().forEach { screen ->
-                BottomNavigationItem(
-                    icon = { Icon(screen.icon, contentDescription = screen.name) },
-                    label = { Text(stringResource(id = screen.title)) },
-                    selected = currentDestination?.hierarchy?.any {
-                        it.route == screen.route } == true,
-                    onClick = {
-                        navController.navigate(screen.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
+        items.forEach { item ->
+            BottomNavigationItem(
+                icon = { Icon(item.icon, contentDescription = stringResource(item.title)) },
+                label = { Text(text = stringResource(item.title)) },
+                selectedContentColor = Color.White,
+                unselectedContentColor = Color.White.copy(0.4f),
+                alwaysShowLabel = true,
+                selected = currentRoute == item.route,
+                onClick = {
+                    navController.navigate(item.route) {
+                        navController.graph.startDestinationRoute?.let { route ->
+                            popUpTo(route) {
                                 saveState = true
                             }
-                            launchSingleTop = true
-                            restoreState = true
                         }
+                        launchSingleTop = true
+                        restoreState = true
                     }
-                )
-            }
-        }
-    }) {
-        NavHost(navController = navController, startDestination = HomeSections.Hospital.route) {
-            composable(HomeSections.Hospital.route) { Feature({}, MainViewModel()) }
-            composable(HomeSections.Doctor.route) { Doctors() }
-            composable(HomeSections.Deal.route) { Deals() }
-            composable(HomeSections.Search.route) { Search() }
-            composable(HomeSections.Profile.route) { Setting() }
+                }
+            )
         }
     }
 }
-
