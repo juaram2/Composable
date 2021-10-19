@@ -21,12 +21,12 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import com.example.composable.ui.components.LoadingBar
 import com.example.composable.ui.components.Thumbnail
-import com.example.composable.viewModel.MainViewModel
+import com.example.composable.viewModel.HospitalViewModel
 
 @Composable
-fun Feature(
+fun Hospitals(
     onClick: (String) -> Unit,
-    viewModel: MainViewModel
+    viewModel: HospitalViewModel
 ) {
     val hospitals = viewModel.data.observeAsState().value?.items ?: emptyList()
     val loadingState = viewModel.loading.observeAsState().value
@@ -35,12 +35,12 @@ fun Feature(
     if (loadingState == true) {
         LoadingBar()
     } else {
-        Hospitals(hospitals, onClick)
+        HospitalsList(hospitals, onClick)
     }
 }
 
 @Composable
-private fun Hospitals(
+private fun HospitalsList(
     hospitals: List<HospitalItemViewModel>,
     onClick: (String) -> Unit
 ) {
@@ -57,13 +57,13 @@ private fun Hospitals(
             modifier = Modifier.padding(bottom = 15.dp))
 
         hospitals?.forEach { hospitalItemViewModel ->
-            Hospital(onClick, hospital = hospitalItemViewModel)
+            HospitalItem(onClick, hospital = hospitalItemViewModel)
         }
     }
 }
 
 @Composable
-fun Hospital(
+fun HospitalItem(
     onClick: (String) -> Unit,
     hospital: HospitalItemViewModel
 ) {

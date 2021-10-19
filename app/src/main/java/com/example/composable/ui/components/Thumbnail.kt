@@ -18,7 +18,7 @@ import coil.compose.ImagePainter
 fun Thumbnail(painter: ImagePainter) {
     when (painter.state) {
         is ImagePainter.State.Loading -> {
-            CircularProgressIndicator()
+            CircularProgressIndicator(Modifier)
         }
         is ImagePainter.State.Error -> {
             Log.d("debug", "Error!!!")
@@ -36,6 +36,6 @@ fun Thumbnail(painter: ImagePainter) {
         .height(150.dp)
         .clip(RoundedCornerShape(5.dp)),
         alignment = Alignment.Center,
-        contentScale = ContentScale.FillBounds,
+        contentScale = ContentScale.Crop,
     )
 }

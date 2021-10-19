@@ -22,11 +22,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navigation
-import com.example.composable.ui.detailPages.HomeDetail
 import com.example.composable.ui.pages.*
 import com.example.composable.ui.theme.ComposableTheme
-import com.example.composable.viewModel.MainViewModel
+import com.example.composable.viewModel.DealViewModel
+import com.example.composable.viewModel.DoctorViewModel
+import com.example.composable.viewModel.HospitalViewModel
 import kotlinx.coroutines.launch
 
 sealed class BottomNavItem(
@@ -44,9 +44,9 @@ sealed class BottomNavItem(
 @Composable
 fun HomeNavigation(navController: NavHostController) {
     NavHost(navController = navController, startDestination = BottomNavItem.Hospital.route) {
-        composable(BottomNavItem.Hospital.route) { Feature({}, MainViewModel()) }
-        composable(BottomNavItem.Doctor.route) { Doctors() }
-        composable(BottomNavItem.Deal.route) { Deals() }
+        composable(BottomNavItem.Hospital.route) { Hospitals({}, HospitalViewModel()) }
+        composable(BottomNavItem.Doctor.route) { Doctors({}, DoctorViewModel()) }
+        composable(BottomNavItem.Deal.route) { Deals({}, DealViewModel()) }
         composable(BottomNavItem.Search.route) { Search() }
         composable(BottomNavItem.Profile.route) { Setting() }
     }

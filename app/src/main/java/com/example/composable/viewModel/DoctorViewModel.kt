@@ -1,6 +1,7 @@
 package com.example.composable.viewModel
 
-import CloudHospitalApi.apis.HospitalsApi
+import CloudHospitalApi.apis.DoctorsApi
+import CloudHospitalApi.models.DoctorsViewModel
 import CloudHospitalApi.models.HospitalViewModel
 import CloudHospitalApi.models.HospitalsViewModel
 import CloudHospitalApi.models.MarketingType
@@ -12,14 +13,11 @@ import com.example.composable.service.ApiClients
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainViewModel : BaseViewModel() {
-    private val hospitalsApi = ApiClients.apiClient.createService(HospitalsApi::class.java)
+class DoctorViewModel : BaseViewModel() {
+    private val doctorsApi = ApiClients.apiClient.createService(DoctorsApi::class.java)
 
-    private val _data = MutableLiveData<HospitalsViewModel>()
-    val data: LiveData<HospitalsViewModel> = _data
-
-    private val _hospital = MutableLiveData<HospitalViewModel>()
-    val hospital: LiveData<HospitalViewModel> = _hospital
+    private val _data = MutableLiveData<DoctorsViewModel>()
+    val data: LiveData<DoctorsViewModel> = _data
 
     init {
         fetchData(MarketingType.both)
@@ -31,7 +29,7 @@ class MainViewModel : BaseViewModel() {
         _loading.postValue(true)
         viewModelScope.launch(Dispatchers.Main) {
             try {
-                var result = hospitalsApi.apiV1HospitalsGet(marketingType =  marketingType, page = page)
+                var result = doctorsApi.apiV1DoctorsGet(marketingType =  marketingType, page = page)
                 if (result.isSuccessful) {
                     _loading.postValue(false)
                     if (result.code() == 200) {
@@ -42,9 +40,9 @@ class MainViewModel : BaseViewModel() {
                                 if (data.items != null)
                                     oldItems?.addAll(data.items!!)
 
-                                val newData = HospitalsViewModel(
-                                    items = oldItems,
-                                    metaData = data.metaData
+                                val newData = CloudHospitalApi.models.DoctorsViewModel(
+                                        items = oldItems,
+                                        metaData = data.metaData
                                 )
 
                                 _data.postValue(newData)
@@ -63,33 +61,6 @@ class MainViewModel : BaseViewModel() {
             }
             catch (e: Exception) {
                 _loading.postValue(false)
-                Log.d("debug", "$actionName failed: ${e.message}")
-            }
-        }
-    }
-
-    fun fetchHospitalItem(slug: String) {
-        val actionName = "apiV1HospitalsSlugsSlugGet"
-        _loading.value = true
-        Log.d("debug", "$actionName started.")
-        viewModelScope.launch(Dispatchers.Main) {
-            try {
-                var result = hospitalsApi.apiV1HospitalsSlugsSlugGet(slug = slug)
-                if (result.isSuccessful) {
-                    _loading.value = false
-                    Log.d("debug", "$actionName completed.")
-                    if (result.code() == 200) {
-                        result.body()?.let { data ->
-                            _hospital.postValue(data)
-                        }
-                    }
-                } else {
-                    _loading.value = false
-                    Log.e("error",
-                        "code = ${result.code()} message: ${result.errorBody()?.string()}")
-                }
-            } catch (e: Exception) {
-                _loading.value = false
                 Log.d("debug", "$actionName failed: ${e.message}")
             }
         }

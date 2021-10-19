@@ -2,8 +2,6 @@ package com.example.composable.viewModel
 
 import CloudHospitalApi.apis.HospitalsApi
 import CloudHospitalApi.models.HospitalViewModel
-import CloudHospitalApi.models.HospitalsViewModel
-import CloudHospitalApi.models.MarketingType
 import CloudHospitalApi.models.MediaType
 import android.util.Log
 import androidx.lifecycle.LiveData
