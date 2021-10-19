@@ -1,34 +1,70 @@
+/*
+ * Copyright 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import com.example.composable.buildsrc.Libs
+
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-parcelize'
     id 'kotlin-kapt'
 }
+apply plugin: 'kotlin-android'
 
 android {
-    compileSdk 31
-    buildToolsVersion "31.0.0"
+    compileSdkVersion 31
 
     defaultConfig {
-        applicationId "com.example.composable"
-        minSdk 26
-        targetSdk 31
+        applicationId 'com.example.composable'
+        minSdkVersion 21
+        targetSdkVersion 31
         versionCode 1
-        versionName "1.0"
-
+        versionName '1.0'
         multiDexEnabled true
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+
         vectorDrawables {
             useSupportLibrary true
         }
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    signingConfigs {
+        // We use a bundled debug keystore, to allow debug builds from CI to be upgradable
+        debug {
+            storeFile rootProject.file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
         }
     }
+
+
+    buildFeatures {
+        compose true
+        // Disable unused AGP features
+        buildConfig true
+        aidl false
+        renderScript false
+        resValues false
+        shaders false
+        viewBinding true
+    }
+
+
     flavorDimensions "stage"
     productFlavors {
         dev {
@@ -44,84 +80,176 @@ android {
             applicationIdSuffix ".app"
         }
     }
+
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
+
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = '11'
-        useIR = true
-    }
-    buildFeatures {
-        viewBinding = true
-        compose = true
-    }
+
     composeOptions {
-        kotlinCompilerExtensionVersion compose_version
+        kotlinCompilerExtensionVersion Libs.AndroidX.Compose.version
     }
+
     packagingOptions {
-        exclude 'META-INF/DEPENDENCIES'
+        // Multiple dependency bring these files in. Exclude them to enable
+        // our test APK to build (has no effect on our AARs)
+        excludes += "/META-INF/AL2.0"
+        excludes += "/META-INF/LGPL2.1"
+        excludes += "/META-INF/DEPENDENCIES"
     }
     viewBinding {
-        enabled = true
+        enabled true
     }
 }
 
 dependencies {
-    implementation 'androidx.core:core-ktx:1.6.0'
-    implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation 'com.google.android.material:material:1.4.0'
+    implementation Libs.Kotlin.stdlib
+    implementation Libs.Coroutines.android
 
-    // Compose
-    implementation "androidx.compose.ui:ui:$compose_version"
-    implementation "androidx.compose.ui:ui-tooling:$compose_version"
-    implementation "androidx.compose.material:material:$compose_version"
-    implementation "androidx.compose.foundation:foundation:$compose_version"
-    implementation 'androidx.activity:activity-compose:1.3.1'
+    implementation Libs.Coroutines.core
 
-    // Material design icons
-    implementation "androidx.compose.material:material-icons-core:$compose_version"
-    implementation "androidx.compose.material:material-icons-extended:$compose_version"
+    implementation Libs.AndroidX.coreKtx
+    implementation Libs.AndroidX.Activity.activityCompose
+    implementation Libs.AndroidX.Lifecycle.viewModelCompose
+    implementation Libs.AndroidX.Navigation.navigationCompose
+    implementation Libs.AndroidX.ConstraintLayout.constraintLayoutCompose
 
-    // Lifecycle
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
+    implementation Libs.AndroidX.Compose.runtime
+    implementation Libs.AndroidX.Compose.foundation
+    implementation Libs.AndroidX.Compose.layout
+    implementation Libs.AndroidX.Compose.ui
+    implementation Libs.AndroidX.Compose.uiUtil
+    implementation Libs.AndroidX.Compose.material
+    implementation Libs.AndroidX.Compose.animation
+    implementation Libs.AndroidX.Compose.iconsExtended
+    implementation Libs.AndroidX.Compose.tooling
 
-    // Hilt
-    implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha01'
-    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0-alpha03'
+    implementation Libs.Accompanist.insets
+    implementation Libs.Accompanist.systemuicontroller
+    implementation Libs.Accompanist.flowlayouts
 
-    // Integration with observables
+    implementation Libs.Coil.coilCompose
+
+    androidTestImplementation Libs.JUnit.junit
+    androidTestImplementation Libs.AndroidX.Test.core
+    androidTestImplementation Libs.AndroidX.Test.runner
+    androidTestImplementation Libs.AndroidX.Test.espressoCore
+    androidTestImplementation Libs.AndroidX.Test.rules
+    androidTestImplementation Libs.AndroidX.Test.Ext.junit
+    androidTestImplementation Libs.Coroutines.test
+    androidTestImplementation Libs.AndroidX.Compose.uiTest
+
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
-    implementation "androidx.compose.runtime:runtime-rxjava2:$compose_version"
-
-    // Navigation
-    implementation 'androidx.navigation:navigation-compose:2.4.0-alpha08'
-
-    // Encrypt token
-    implementation "com.pddstudio:encrypted-preferences:$preferences_version"
-
-    // API
-    implementation "com.squareup.moshi:moshi-kotlin:1.11.0"
-    implementation "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.0"
-    implementation "com.squareup.okhttp3:logging-interceptor:4.9.0"
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-scalars:$retrofit_version"
 
     // CH-API-CLIENT
-    implementation files('libs/kotlin-client-1.4.4.jar')
-//    implementation "com.github.icloudhospital:ch-api-client-kotlin:$ch_api_version"
+    implementation "com.github.icloudhospital:ch-api-client-kotlin:$version_ch_api_client"
 
-    // Google
-    implementation "com.google.android.gms:play-services-auth:$google_signin_version"
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    // Coil
-    implementation "com.google.accompanist:accompanist-coil:0.15.0"
+    // AppCenter
+    implementation "com.microsoft.appcenter:appcenter-analytics:$version_appcenter"
+    implementation "com.microsoft.appcenter:appcenter-crashes:$version_appcenter"
+
+    // AppComapt
+    implementation "androidx.appcompat:appcompat:$version_appcompat"
+
+    // legacy support
+    implementation "androidx.legacy:legacy-support-v4:$version_legacy"
+
+    // Timber
+    implementation "com.jakewharton.timber:timber:$version_timber"
+
+    // Encrypt token
+    implementation "com.pddstudio:encrypted-preferences:$version_preferences"
+
+    // auzre_communications
+    implementation "com.azure.android:azure-communication-calling:$version_auzre_communications"
+
+    // Azure Communication Services
+    implementation "com.azure.android:azure-communication-calling:$version_acs"
+
+    // Azure NotificationHubs
+    implementation "com.microsoft.azure:notification-hubs-android-sdk-fcm:$version_notificationhubs"
+    implementation 'com.google.code.gson:gson:2.8.8'
+
+    // Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$version_navigation"
+    implementation "androidx.navigation:navigation-ui-ktx:$version_navigation"
+    implementation "androidx.navigation:navigation-dynamic-features-fragment:$version_navigation"
+
+    // Constraint layout
+    implementation "androidx.constraintlayout:constraintlayout:$version_constraint_layout"
+
+    // ViewPager2
+    implementation "androidx.viewpager2:viewpager2:$version_viewpager2"
+
+    // Cardview
+    implementation "androidx.cardview:cardview:$version_cardview"
+
+    // Skeleton
+    implementation "com.github.skydoves:androidveil:$version_skeleton"
+
+    // Google Sign In
+    implementation "com.google.android.gms:play-services-auth:$version_google_signin"
+
+    // Google map
+    implementation "com.google.android.gms:play-services-maps:$version_map"
+
+    //dialog - https://github.com/eltos/SimpleDialogFragments
+    implementation "com.github.eltos:simpledialogfragments:$version_simple_dialog"
+
+    // SnedBird UIKit
+    implementation "com.sendbird.sdk:uikit:$version_sendbird_uikit"
+
+    // Youtube Player Library
+    // implementation "com.pierfrancescosoffritti.androidyoutubeplayer:core:$version_youtube"
+    // https://mvnrepository.com/artifact/androidx.media2/media2-player
+    implementation 'androidx.media2:media2-player:1.2.0'
+    // Interacting with MediaSessions
+    implementation "androidx.media2:media2-session:1.2.0"
+    // optional - UI widgets for VideoView and MediaControlView
+    implementation "androidx.media2:media2-widget:1.2.0"
+    //Hilt
+    implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03'
+    // When using Kotlin.
+    kapt 'androidx.hilt:hilt-compiler:1.0.0'
+    // When using Java.
+    annotationProcessor 'androidx.hilt:hilt-compiler:1.0.0'
+    //html parser
+    implementation "org.jsoup:jsoup:$version_jsoup"
+
+    //pull to refresh
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$version_swiperefresh"
+    // timezone handling
+    implementation 'net.danlew:android.joda:2.10.12'
+
+    // Stripe Android SDK
+    implementation "com.stripe:stripe-android:$version_stripe"
 
     // Test
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+
+    // Robolectric dependencies
+    testImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+    // TODO: Bump to 4.6.* after https://github.com/robolectric/robolectric/issues/6593 is fixed
+    testImplementation 'org.robolectric:robolectric:4.6.1'
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }

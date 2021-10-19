@@ -1,0 +1,163 @@
+{
+  "project_info": {
+    "project_number": "458555718648",
+    "firebase_url": "https://icloudhospital-1581316089782.firebaseio.com",
+    "project_id": "icloudhospital-1581316089782",
+    "storage_bucket": "icloudhospital-1581316089782.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:458555718648:android:7ab96694625f4a0480b40d",
+        "android_client_info": {
+          "package_name": "com.cloudhospital.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "458555718648-a7gcv9jre9cauvjcpoftdl36hs1jgnqk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cloudhospital.app",
+            "certificate_hash": "1f86f884bc3bcabc3c8f68329eb0d51014fc5e1e"
+          }
+        },
+        {
+          "client_id": "458555718648-abdrvj26g30m7gji5dsd4d58ltvf0ass.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cloudhospital.app",
+            "certificate_hash": "9bb56ccff50d0c8846efcdf53ea9c8f740d786bd"
+          }
+        },
+        {
+          "client_id": "458555718648-mj94os79ig6p1n8cf3b16nq900bgjk4a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cloudhospital.app",
+            "certificate_hash": "1ab06b781d256801f6ef5e7c31240b5fbfc7ccf7"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0OGaqG-q1H7sP5viRUaVvmw3nmlO-oJ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "458555718648-1b9q73s8vi8anjp1j51jnh2n24c21rpd.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "458555718648-cdonuj8nn09bj9p4h7sqhq31sj7u3do0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.cloudhospital.int"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:458555718648:android:e6b184c2deb629d980b40d",
+        "android_client_info": {
+          "package_name": "com.cloudhospital.int"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "458555718648-jvrlfvt7i93enr8uabnitljbphire3hq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cloudhospital.int",
+            "certificate_hash": "9bb56ccff50d0c8846efcdf53ea9c8f740d786bd"
+          }
+        },
+        {
+          "client_id": "458555718648-v0m4q1cc959813o4kcka7ej8cm9j1sli.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cloudhospital.int",
+            "certificate_hash": "1f86f884bc3bcabc3c8f68329eb0d51014fc5e1e"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0OGaqG-q1H7sP5viRUaVvmw3nmlO-oJ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "458555718648-1b9q73s8vi8anjp1j51jnh2n24c21rpd.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "458555718648-cdonuj8nn09bj9p4h7sqhq31sj7u3do0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.cloudhospital.int"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:458555718648:android:8bbb7002d903d22680b40d",
+        "android_client_info": {
+          "package_name": "com.cloudhospital.stg"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "458555718648-4ukuiq990db2hjrkjqulio1vfpia8640.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cloudhospital.stg",
+            "certificate_hash": "9bb56ccff50d0c8846efcdf53ea9c8f740d786bd"
+          }
+        },
+        {
+          "client_id": "458555718648-iihk15ioeccj8arvbc47a4s0dquunsu5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cloudhospital.stg",
+            "certificate_hash": "1f86f884bc3bcabc3c8f68329eb0d51014fc5e1e"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0OGaqG-q1H7sP5viRUaVvmw3nmlO-oJ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "458555718648-1b9q73s8vi8anjp1j51jnh2n24c21rpd.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "458555718648-cdonuj8nn09bj9p4h7sqhq31sj7u3do0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.cloudhospital.int"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
