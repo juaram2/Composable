@@ -18,53 +18,56 @@ import com.example.composable.buildsrc.Libs
 import com.example.composable.buildsrc.Versions
 
 buildscript {
-    ext.kotlin_version = '1.5.31'
-    ext.compose_version = '1.1.0-alpha06'
-    ext.coroutines_version = '1.5.2'
-    ext.accompanist_version = '0.19.0'
-    // CH-API-CLIENT
-    ext.version_ch_api_client = "1.4.4"
-    // Navigation
-    ext.version_navigation = '2.3.5'
-    // AppCenter
-    ext.version_appcenter = '4.3.1'
-    // AppComapt
-    ext.version_appcompat = '1.3.1'
-    // Legacy support
-    ext.version_legacy = "1.0.0"
-    // Timber
-    ext.version_timber = '5.0.1'
+    ext{
+        kotlin_version = '1.5.31'
+        compose_version = '1.1.0-alpha06'
+        coroutines_version = '1.5.2'
+        accompanist_version = '0.19.0'
+        // CH-API-CLIENT
+        version_ch_api_client = "1.4.4"
+        // Navigation
+        version_navigation = '2.3.5'
+        // AppCenter
+        version_appcenter = '4.3.1'
+        // AppComapt
+        version_appcompat = '1.3.1'
+        // Legacy support
+        version_legacy = "1.0.0"
+        // Timber
+        version_timber = '5.0.1'
 
-    // Encrypt token
-    ext.version_preferences = "1.3.0"
-    ext.version_auzre_communications = '1.2.1-beta.1'
-    // Azure Communication Services
-    ext.version_acs = '1.2.1-beta.1'
-    // Azure NotificationHubs
-    ext.version_notificationhubs = '1.1.6'
-    // Navigation
-    ext.version_navigation = '2.3.5'
-    // Constraint layout
-    ext.version_constraint_layout = '2.1.1'
+        // Encrypt token
+        version_preferences = "1.3.0"
+        version_auzre_communications = '1.2.1-beta.1'
+        // Azure Communication Services
+        version_acs = '1.2.1-beta.1'
+        // Azure NotificationHubs
+        version_notificationhubs = '1.1.6'
+        // Navigation
+        version_navigation = '2.3.5'
+        // Constraint layout
+        version_constraint_layout = '2.1.1'
 
-    // ViewPager2
-    ext.version_viewpager2 = "1.0.0"
-    // Cardview
-    ext.version_cardview = "1.0.0"
-    ext.version_glide = "4.8.0"
-    ext.version_skeleton = "1.1.1"
-    ext.version_google_signin = '19.2.0'
-    ext.version_map= '17.0.1'
-    // Youtube Player Library
-    ext.version_youtube = "10.0.5"
-    //html parser
-    ext.version_jsoup = '1.14.3'
-    //stripe payment
-    ext.version_stripe = '18.0.0'
+        // ViewPager2
+        version_viewpager2 = "1.0.0"
+        // Cardview
+        version_cardview = "1.0.0"
+        version_glide = "4.8.0"
+        version_skeleton = "1.1.1"
+        version_google_signin = '19.2.0'
+        version_map= '17.0.1'
+        // Youtube Player Library
+        version_youtube = "10.0.5"
+        //html parser
+        version_jsoup = '1.14.3'
+        //stripe payment
+        version_stripe = '18.1.0'
 
-    ext.version_simple_dialog = 'v3.3.2'
-    ext.version_sendbird_uikit = '2.1.8'
-    ext.version_swiperefresh = '1.1.0'
+        version_simple_dialog = 'v3.3.2'
+        version_sendbird_uikit = '2.1.8'
+        version_swiperefresh = '1.1.0'
+    }
+
     repositories {
         google()
         mavenCentral()
