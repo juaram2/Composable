@@ -45,6 +45,7 @@ sealed class BottomNavItem(
 fun HomeNavigation(navController: NavHostController) {
     NavHost(navController = navController, startDestination = BottomNavItem.Hospital.route) {
         composable(BottomNavItem.Hospital.route) { Feature({}, MainViewModel()) }
+        composable(BottomNavItem.Doctor.route) { Doctors() }
         composable(BottomNavItem.Deal.route) { Deals() }
         composable(BottomNavItem.Search.route) { Search() }
         composable(BottomNavItem.Profile.route) { Setting() }
