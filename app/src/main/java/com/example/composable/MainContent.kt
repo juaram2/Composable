@@ -24,6 +24,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.composable.ui.pages.*
 import com.example.composable.ui.theme.ComposableTheme
+import com.example.composable.viewModel.AutoCompleteViewModel
 import com.example.composable.viewModel.DealViewModel
 import com.example.composable.viewModel.DoctorViewModel
 import com.example.composable.viewModel.HospitalViewModel
@@ -47,7 +48,7 @@ fun HomeNavigation(navController: NavHostController) {
         composable(BottomNavItem.Hospital.route) { Hospitals({}, HospitalViewModel()) }
         composable(BottomNavItem.Doctor.route) { Doctors({}, DoctorViewModel()) }
         composable(BottomNavItem.Deal.route) { Deals({}, DealViewModel()) }
-        composable(BottomNavItem.Search.route) { Search() }
+        composable(BottomNavItem.Search.route) { Search(viewModel = AutoCompleteViewModel()) }
         composable(BottomNavItem.Profile.route) { Setting() }
     }
 }

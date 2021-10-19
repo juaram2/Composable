@@ -6,10 +6,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
@@ -25,19 +27,16 @@ fun CustomSearchBar(
     onQueryChange: (TextFieldValue) -> Unit,
     searchFocused: Boolean,
     onSearchFocusChange: (Boolean) -> Unit,
-    onClearQuery: () -> Unit,
-    searching: Boolean,
-    modifier: Modifier = Modifier
+    onClearQuery: () -> Unit
 ) {
-    var value by remember { mutableStateOf("") }
     var searching by remember { mutableStateOf(false) }
 
     Box(modifier = Modifier
         .fillMaxSize()
         .padding(8.dp)) {
         BasicTextField(
-            value = value,
-            onValueChange = { value = it },
+            value = query,
+            onValueChange = onQueryChange,
             decorationBox = {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -54,11 +53,11 @@ fun CustomSearchBar(
                         )
                     }
 
-                    searching = if (value.isEmpty()) {
+                    searching = if (query.text.isEmpty()) {
                         Text(stringResource(R.string.nav_search), modifier = Modifier.weight(1f))
                         false
                     } else {
-                        Text(value, modifier = Modifier.weight(1f))
+                        Text(query.text, modifier = Modifier.weight(1f))
                         true
                     }
 
@@ -69,10 +68,22 @@ fun CustomSearchBar(
                                 .padding(horizontal = 6.dp)
                                 .size(36.dp)
                         )
+
+                        if(searchFocused) {
+                            IconButton(onClick = onClearQuery) {
+                                Icon(
+                                    imageVector = Icons.Default.Close,
+                                    contentDescription = "clear"
+                                )
+                            }
+                        }
                     } else {
                         Spacer(Modifier.width(ButtonDefaults.IconSize)) // balance arrow icon
                     }
                 }
+            },
+            modifier = Modifier.onFocusChanged {
+                onSearchFocusChange(it.isFocused)
             }
         )
     }

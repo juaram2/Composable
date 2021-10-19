@@ -49,7 +49,7 @@ fun DoctorsList(
             .verticalScroll(scrollState)
             .padding(20.dp)
     ) {
-        Text(text = "Top Hospitals & Clinics",
+        Text(text = "Top Doctors",
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 15.dp))
