@@ -7,6 +7,6 @@ import com.example.composable.model.identity.UserInfo
 @Composable
 fun Setting() {
     Column() {
-        AppScreen(UserInfo())
+        AppScreen()
     }
 }
