@@ -1,8 +1,15 @@
 package com.example.composable.ui.pages
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.unit.dp
 import com.example.composable.ui.components.CustomSearchBar
 import com.example.composable.ui.components.NoResult
 import com.example.composable.ui.detailPages.SearchResult
@@ -13,6 +20,8 @@ fun Search(
     state: SearchState = rememberSearchState(),
     viewModel: AutoCompleteViewModel
 ) {
+    val keywords = viewModel.autoComplete.observeAsState().value?.values ?: emptyList()
+
     Column {
         CustomSearchBar(
             query = state.query,
@@ -28,8 +37,8 @@ fun Search(
         }
 
         when (state.searchDisplay) {
-            SearchDisplay.Results -> SearchResult({}, viewModel)
-            SearchDisplay.NoResults -> NoResult()
+            SearchDisplay.Results -> SearchResult({}, keywords)
+            SearchDisplay.NoResults -> NoResult(state.query.text)
         }
     }
 }

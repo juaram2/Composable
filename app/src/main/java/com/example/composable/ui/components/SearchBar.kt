@@ -32,7 +32,7 @@ fun CustomSearchBar(
     var searching by remember { mutableStateOf(false) }
 
     Box(modifier = Modifier
-        .fillMaxSize()
+        .fillMaxWidth()
         .padding(8.dp)) {
         BasicTextField(
             value = query,
