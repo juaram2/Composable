@@ -3,6 +3,9 @@ package com.example.composable.ui.pages
 import CloudHospitalApi.models.HospitalItemViewModel
 import CloudHospitalApi.models.MediaType
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
@@ -45,6 +48,7 @@ private fun HospitalsList(
     onClick: (String) -> Unit
 ) {
     val scrollState = rememberScrollState()
+    val listState = rememberLazyListState()
 
     Column(
         modifier = Modifier
@@ -55,9 +59,19 @@ private fun HospitalsList(
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 15.dp))
+    }
 
-        hospitals?.forEach { hospitalItemViewModel ->
-            HospitalItem(onClick, hospital = hospitalItemViewModel)
+    LazyColumn(state = listState){
+        val firstVisibleIndex = listState.firstVisibleItemIndex
+        val lastItemIndex = listState.layoutInfo.visibleItemsInfo.lastIndex
+        val limit = 20
+
+        if (firstVisibleIndex + lastItemIndex + 1 == limit) {
+            // TODO : append items
+        }
+
+        itemsIndexed(hospitals) { index, hospital ->
+            HospitalItem(onClick, hospital = hospital)
         }
     }
 }
