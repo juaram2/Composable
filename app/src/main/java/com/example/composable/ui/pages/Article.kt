@@ -75,17 +75,12 @@ fun ArticleItem(
         Column() {
             article?.let {
                 if (it.youtubeUrl != null) {
-                    VideoThumbnail()
+                    VideoThumbnail(it.youtubeUrl!!)
                 } else {
-                    val media = it.medias
-                    for (i: Int in 0..media?.size!!.minus(1)) {
-                        if (media!![i].order == 0 && media!![i].mediaType == MediaType.photo) {
-                            val painter = rememberImagePainter(
-                                data = media[i].thumbnailUrl
-                            )
-                            Thumbnail(painter)
-                        }
-                    }
+                    val painter = rememberImagePainter(
+                        it.medias!![0].thumbnailUrl
+                    )
+                    Thumbnail(painter)
                 }
                 Text(text = it.title!!, modifier = Modifier
                     .padding(top = 10.dp, start = 15.dp, end = 15.dp, bottom = 10.dp),
