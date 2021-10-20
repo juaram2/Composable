@@ -48,7 +48,6 @@ sealed class BottomNavItem(
 
     // Drawer
     object Article : BottomNavItem(R.string.nav_article, Icons.Filled.Article, "article")
-    object Video : BottomNavItem(R.string.nav_video, Icons.Filled.PlayCircleOutline, "video")
     object Booking : BottomNavItem(R.string.nav_booking, Icons.Filled.ShoppingBag, "booking")
     object Notification : BottomNavItem(R.string.nav_notification, Icons.Filled.Notifications, "notification")
     object Setting : BottomNavItem(R.string.nav_setting, Icons.Filled.Settings, "setting")
@@ -79,9 +78,6 @@ fun HomeNavigation(navController: NavHostController) {
 
         composable(BottomNavItem.Article.route) {
             Article()
-        }
-        composable(BottomNavItem.Video.route) {
-            Video()
         }
         composable(BottomNavItem.Booking.route) {
             Booking()
@@ -150,7 +146,6 @@ fun TopBar(scaffoldState: ScaffoldState, navController: NavHostController) {
 fun Drawer(scaffoldState: ScaffoldState, navController: NavController) {
     val items = listOf(
         BottomNavItem.Article,
-        BottomNavItem.Video,
         BottomNavItem.Booking,
         BottomNavItem.Notification,
         BottomNavItem.Setting
