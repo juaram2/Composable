@@ -24,10 +24,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.composable.ui.pages.*
 import com.example.composable.ui.theme.ComposableTheme
-import com.example.composable.viewModel.AutoCompleteViewModel
-import com.example.composable.viewModel.DealViewModel
-import com.example.composable.viewModel.DoctorViewModel
-import com.example.composable.viewModel.HospitalViewModel
+import com.example.composable.viewModel.*
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
@@ -56,6 +53,7 @@ sealed class BottomNavItem(
 @Composable
 fun HomeNavigation(navController: NavHostController) {
     NavHost(navController = navController, startDestination = BottomNavItem.Hospital.route) {
+        // Bottom
         composable(BottomNavItem.Hospital.route) {
             Hospitals({}, HospitalViewModel())
         }
@@ -72,12 +70,14 @@ fun HomeNavigation(navController: NavHostController) {
             Setting()
         }
 
+        // Top
         composable(BottomNavItem.Chat.route) {
             Chat()
         }
-
+        
+        // Drawer
         composable(BottomNavItem.Article.route) {
-            Article()
+            Article({}, ArticleViewModel())
         }
         composable(BottomNavItem.Booking.route) {
             Booking()

@@ -19,6 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import com.example.composable.ui.components.LoadingBar
 import com.example.composable.ui.components.Thumbnail
+import com.example.composable.ui.components.VideoThumbnail
 import com.example.composable.viewModel.ArticleViewModel
 
 @Composable
@@ -74,7 +75,7 @@ fun ArticleItem(
         Column() {
             article?.let {
                 if (it.youtubeUrl != null) {
-                    
+                    VideoThumbnail()
                 } else {
                     val media = it.medias
                     for (i: Int in 0..media?.size!!.minus(1)) {
@@ -87,7 +88,7 @@ fun ArticleItem(
                     }
                 }
                 Text(text = it.title!!, modifier = Modifier
-                    .padding(top = 10.dp, start = 15.dp, end = 15.dp),
+                    .padding(top = 10.dp, start = 15.dp, end = 15.dp, bottom = 10.dp),
                     fontSize = 20.sp)
             }
         }
