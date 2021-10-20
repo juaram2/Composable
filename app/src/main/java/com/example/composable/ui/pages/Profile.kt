@@ -1,12 +1,12 @@
 package com.example.composable.ui.pages
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import com.example.composable.model.identity.UserInfo
 
 @Composable
-fun Setting() {
+fun Profile() {
     Column() {
-        AppScreen()
+        Text(text = "Profile")
     }
 }
