@@ -4,10 +4,13 @@
     <string name="nav_hospital">Hospital</string>
     <string name="nav_doctor">Doctor</string>
     <string name="nav_deal">Deal</string>
+    <string name="nav_search">Search</string>
     <string name="nav_profile">Profile</string>
 
     <string name="nav_home">Home</string>
-    <string name="nav_search">Search</string>
-    <string name="nav_bookng">Booking</string>
-    <string name="nav_setting">Setting</string>
+    <string name="nav_article">Articles</string>
+    <string name="nav_video">Videos</string>
+    <string name="nav_booking">Bookings</string>
+    <string name="nav_notification">Notifications</string>
+    <string name="nav_setting">Settings</string>
 </resources>
